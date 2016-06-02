@@ -6,6 +6,7 @@
 
 #include "stdMenu.h"
 #include "fileMenu.h"
+#include "normalMenu.h"
 #include "menu.h"
 
 #include "FileTools.h"

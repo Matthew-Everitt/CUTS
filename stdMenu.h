@@ -1,9 +1,9 @@
 #pragma once
 
 #include "menu.h"
-class stdMenu_t : public virtual menu_t{
+class baseMenu_t : public virtual menu_t{
   public:
-    stdMenu_t ( menu_t *  parent );
+    baseMenu_t ( menu_t *  parent );
     void setMenus( menu_t ** menus );
     void setNEntries( int n );
     void setStrings( char ** strings );
@@ -12,10 +12,12 @@ class stdMenu_t : public virtual menu_t{
     void select( );
     void load  ( );
     void unload( );
+
+	virtual char * getString(int i) = 0;
+	char ** strings;
+
   private:
     int nEntries;
-	char * getString(int i);
-    char ** strings;
     menu_t ** menus;
     int selected = 0;
 

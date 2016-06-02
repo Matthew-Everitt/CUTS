@@ -1,7 +1,7 @@
 //Actual menus
-static stdMenu_t topMenu(NULL);
-static stdMenu_t filesMenu(&topMenu);
-static stdMenu_t settingsMenu(&topMenu);
+static normalMenu_t topMenu(NULL);
+static normalMenu_t filesMenu(&topMenu);
+static normalMenu_t settingsMenu(&topMenu);
 static fileMenu_t testMenu(&filesMenu);
 
 //Menu resources

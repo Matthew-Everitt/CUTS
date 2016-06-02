@@ -4,22 +4,22 @@
 #include "nokiaDisplay.h"
 extern menu_t * menu;
 
-stdMenu_t::stdMenu_t ( menu_t *  parent ){
+baseMenu_t::baseMenu_t ( menu_t *  parent ){
   this -> parent = parent;
 }
 
-void stdMenu_t::setMenus( menu_t ** menus ){
+void baseMenu_t::setMenus( menu_t ** menus ){
   this->menus = menus;
 }
 
-void stdMenu_t::setNEntries( int n ){
+void baseMenu_t::setNEntries( int n ){
   this -> nEntries = n;
 }
 
-void stdMenu_t::setStrings( char ** strings){
+void baseMenu_t::setStrings( char ** strings){
   this -> strings = strings;
 }
-void stdMenu_t::changeSelected( int s ){
+void baseMenu_t::changeSelected( int s ){
   Serial.print( "\tGoing from "  );
   Serial.print( this->selected );
   Serial.print( " to "           );
@@ -34,11 +34,11 @@ void stdMenu_t::changeSelected( int s ){
   Serial.println( this->selected);
 }
 
-char * stdMenu_t::getString(int index){
+char * baseMenu_t::getString(int index){
 	return this->strings[index];
 }
 
-void stdMenu_t::draw( ){
+void baseMenu_t::draw( ){
 //   Serial.print("Selected is ");
 //   Serial.println(this->selected);
   int count = min( displayProperties.nRows - 1, this->nEntries ) ;
@@ -87,14 +87,14 @@ void stdMenu_t::draw( ){
     disp.setDefaultForegroundColor();
   }
 }
-void stdMenu_t::select( ){
+void baseMenu_t::select( ){
   //Serial.println("Changing menu");
   menu = this->menus[selected];
   menu->load();
 }
-void stdMenu_t::load  ( ){
+void baseMenu_t::load  ( ){
 }
-void stdMenu_t::unload( ){
+void baseMenu_t::unload( ){
   if ( this->parent != NULL ){
     menu = this->parent;
     menu->load();
