@@ -45,13 +45,13 @@
     <ClInclude Include="nokiaDisplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="systemState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="normalMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="baseMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -65,13 +65,13 @@
     <ClCompile Include="namedFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stdMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="nokiaDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="normalMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="baseMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

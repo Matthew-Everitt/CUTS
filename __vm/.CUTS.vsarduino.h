@@ -58,6 +58,8 @@ typedef void *__builtin_va_list;
 #include <CUTS.ino>
 #include <FileTools.cpp>
 #include <FileTools.h>
+#include <baseMenu.cpp>
+#include <baseMenu.h>
 #include <common.h>
 #include <debounce.h>
 #include <fileMenu.cpp>
@@ -70,7 +72,5 @@ typedef void *__builtin_va_list;
 #include <nokiaDisplay.h>
 #include <normalMenu.cpp>
 #include <normalMenu.h>
-#include <stdMenu.cpp>
-#include <stdMenu.h>
 #include <systemState.h>
 #endif

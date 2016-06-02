@@ -9,16 +9,17 @@ class baseMenu_t : public virtual menu_t{
     void setStrings( char ** strings );
     void changeSelected( int s );
     void draw( );
-    void select( );
-    void load  ( );
     void unload( );
 
+	virtual void select() = 0;
 	virtual char * getString(int i) = 0;
-	char ** strings;
 
-  private:
+	char ** strings;
+	menu_t ** menus;
+
     int nEntries;
-    menu_t ** menus;
+    
     int selected = 0;
 
+  private:
 };

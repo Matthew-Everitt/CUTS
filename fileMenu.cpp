@@ -1,12 +1,68 @@
 #include "fileMenu.h"
-#include "stdMenu.h"
+#include "baseMenu.h"
+#include "menu.h"
+extern menu_t * menu;
+extern SdFat SD;
+
+
 
 fileMenu_t::fileMenu_t ( menu_t *  parent ): baseMenu_t::baseMenu_t(parent) {}
 
 void fileMenu_t::load ( void ){
   Serial.println("Loading some files maybe?");
+  char * path = "/test/";
+  this->dir.open(path);
+  this->dir.rewind();
+  this->nEntries = 0;
+  this->lastOpened = 0;
+  File file;
+
+  while (file.openNext(&(this->dir), O_READ)) {
+	  this->nEntries++;
+	  file.close();
+  }
 }
 
 char * fileMenu_t::getString(int index) {
-	return "I'm a kitty!";
+	
+	File file;
+
+	static char buffer[128];
+	//TODO: subclass FatFile and add an openPrevious so we can work backwards from where we are, never giving up out position (unless 0 is closer than we currently are I suppose)
+	//That way we can calculate how many we need to move, and the direction, apply the correct # of openNext / openPrevious commands, and finally read the filename we want
+
+	//Other options :  
+	//		*	have a set # of cached results, check there first - might be a nice library for this?
+	//		*	Pagify the results using a cache of strings, only traverse the file to update that cache when a new page is requested
+	//		*	Have a fixed size cache of strings, ignore anything outside that - who needs more than N files per dir?
+	//		*	Build a lookup table of requested index vs. FAT index. Should be 16 bits per entry, need to allow a decent # - big table. Not unreasonable if we limit to lets say 100 files per dir.
+
+	//		*	Lookup table as above, but pageified / cached like the other ideas, but using less RAM than strings
+
+	if (index < this->lastOpened) {
+		this->lastOpened = 0;
+		this->dir.rewind();
+	}
+
+
+
+	//Serial.print("Asked for entry "); Serial.println(index);
+	for (int i = this->lastOpened; i <= index - 1; i++) { 
+		file.openNext( &(this->dir) );
+		file.close();
+	}
+	file.openNext(&(this->dir));
+	//file.open(&dir, index, O_READ);
+	file.getName(buffer, 128);
+	file.close();
+
+	this->lastOpened = index;
+	return buffer;
 }
+
+void fileMenu_t::select() {
+	Serial.println("Changing menu (file)");
+	menu = this->menus[this->selected];
+	menu->load();
+}
+

@@ -143,7 +143,7 @@
       <FileType>CppCode</FileType>
     </ClInclude>
     <ClInclude Include="normalMenu.h" />
-    <ClInclude Include="stdMenu.h">
+    <ClInclude Include="baseMenu.h">
       <FileType>CppCode</FileType>
     </ClInclude>
     <ClInclude Include="systemState.h">
@@ -157,7 +157,7 @@
     <ClCompile Include="namedFile.cpp" />
     <ClCompile Include="nokiaDisplay.cpp" />
     <ClCompile Include="normalMenu.cpp" />
-    <ClCompile Include="stdMenu.cpp" />
+    <ClCompile Include="baseMenu.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

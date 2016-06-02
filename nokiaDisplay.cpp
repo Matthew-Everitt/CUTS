@@ -1,10 +1,12 @@
 #include "U8glib.h"
 #include <Encoder.h>
+#include <intervalTimer.h>
+
 #include "debounce.h"
 #include "nokiaDisplay.h"
 #include "common.h"
 
-#include "stdMenu.h"
+#include "baseMenu.h"
 #include "fileMenu.h"
 #include "normalMenu.h"
 #include "menu.h"
@@ -14,13 +16,15 @@
 #include "systemState.h"
 
 extern SdFat SD;
+
+IntervalTimer displayTimer;
      
 displayProperties_t displayProperties;
 //I think DC & RST may be swapped
 U8GLIB_PCD8544 disp(dispCLK, dispMOSI, dispSCE, dispRST, dispDC);
 Encoder rotaryEncoder(encPin1, encPin2);
 
-systemState_t systemState;
+extern systemState_t systemState;
 
 //current menu
 menu_t *  menu;
@@ -29,6 +33,7 @@ menu_t *  menu;
 debounceISR(encButt) {
 	Serial.println("BEEP");
 	menu->select();
+	systemState.redrawNeeded = true;
 }
 
 debounceISR(playBut) {
@@ -51,7 +56,7 @@ debounceISR(backBut) {
 void setupDisplay() {
 	setupMenus();
 	pinMode(13, OUTPUT);
-
+	
 	BUTTON(encButt);
 	BUTTON(playBut);
 	BUTTON(backBut);
@@ -73,6 +78,8 @@ void setupDisplay() {
 	Serial.print("nRows  :  "); Serial.println(displayProperties.nRows);
 	disp.setColorIndex(1); // Instructs the display to draw with a pixel on. 
 
+
+	//displayTimer.begin(updateDisplay, 100000); //Periodically update the display, no need for looping. This might cause issues as this is a pretty massive ISR. Depends how fast the processor is compared to the work load
 }
 
 void updateEncoder() {
@@ -84,6 +91,7 @@ void updateEncoder() {
 		if (change != 0) {
 			menu->changeSelected(change);
 			previousP += change;
+			systemState.redrawNeeded = true;
 		}
 	}
 }
@@ -99,6 +107,12 @@ void updateMainDisplay() {
 }
 
 void updateDisplay() {
+	static unsigned long  last = 0;
+	unsigned long  now = micros();
+	Serial.print("Took ");
+	Serial.print(now - last);
+	Serial.println(" us");
+	last = now;
 	updateEncoder();
 	updateMainDisplay();
 	//delay(100);

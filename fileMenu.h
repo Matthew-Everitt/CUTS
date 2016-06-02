@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stdMenu.h"
+#include "baseMenu.h"
 #include "common.h"
 
 class fileMenu_t : public virtual baseMenu_t{
@@ -8,5 +8,7 @@ class fileMenu_t : public virtual baseMenu_t{
     fileMenu_t ( menu_t * parent );
     void load  ( );
 	char * getString(int index);
-//     void select( );
+    void select( );
+	FatFile dir;
+	uint16_t lastOpened = 0;
 };

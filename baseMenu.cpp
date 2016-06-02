@@ -1,4 +1,4 @@
-#include "stdMenu.h"
+#include "baseMenu.h"
 #include "menu.h"
 #include "common.h"
 #include "nokiaDisplay.h"
@@ -87,13 +87,10 @@ void baseMenu_t::draw( ){
     disp.setDefaultForegroundColor();
   }
 }
-void baseMenu_t::select( ){
-  //Serial.println("Changing menu");
-  menu = this->menus[selected];
-  menu->load();
-}
-void baseMenu_t::load  ( ){
-}
+
+
+
+
 void baseMenu_t::unload( ){
   if ( this->parent != NULL ){
     menu = this->parent;

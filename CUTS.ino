@@ -7,7 +7,10 @@
 #include <stdbool.h>
 #include <SdFat.h>
 #include "FileTools.h"
+#include "systemState.h"
 SdFat SD;
+
+systemState_t systemState;
 
 void setup() {
 	setupDisplay();
