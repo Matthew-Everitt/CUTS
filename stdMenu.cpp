@@ -34,6 +34,10 @@ void stdMenu_t::changeSelected( int s ){
   Serial.println( this->selected);
 }
 
+char * stdMenu_t::getString(int index){
+	return this->strings[index];
+}
+
 void stdMenu_t::draw( ){
 //   Serial.print("Selected is ");
 //   Serial.println(this->selected);
@@ -50,7 +54,7 @@ void stdMenu_t::draw( ){
   int scrollStepTimeInMilliseconds=150;
   unsigned long scroll = millis();
   for ( byte i = 0 ; i < count ; i++ ){
-    int d = disp.getStrWidth(this->strings[i + start]) + 1;
+    int d = disp.getStrWidth(this->getString(i + start) ) + 1;
     int overflow = d-disp.getWidth();
     int pos = 1;
    
@@ -79,7 +83,7 @@ void stdMenu_t::draw( ){
 //       Serial.print("*");
     }
 //     Serial.println(this->strings[i + start]);
-    disp.drawStr( pos, (i+1)*displayProperties.fontHeight, this->strings[i + start]);
+    disp.drawStr( pos, (i+1)*displayProperties.fontHeight, this->getString(i + start) );
     disp.setDefaultForegroundColor();
   }
 }

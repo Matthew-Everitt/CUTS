@@ -6,7 +6,7 @@ class stdMenu_t : public virtual menu_t{
     stdMenu_t ( menu_t *  parent );
     void setMenus( menu_t ** menus );
     void setNEntries( int n );
-    void setStrings( char ** strings);
+    void setStrings( char ** strings );
     void changeSelected( int s );
     void draw( );
     void select( );
@@ -14,6 +14,7 @@ class stdMenu_t : public virtual menu_t{
     void unload( );
   private:
     int nEntries;
+	char * getString(int i);
     char ** strings;
     menu_t ** menus;
     int selected = 0;
