@@ -98,8 +98,10 @@ typedef struct{
 
 typedef struct{
   uint8_t fontHeight;
+  uint8_t fontWidth;
   uint8_t infoBarHeight;
   uint8_t nRows;
+  uint8_t nCols;
   uint8_t before;
   uint8_t after;
 } displayProperties_t;

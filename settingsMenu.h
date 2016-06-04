@@ -6,4 +6,9 @@ public:
 	const char * getString(int index);
 	void select();
 	void load();
+private:
+	const char * boolToString(bool b);
+
+	static const int bufferLen = 64; //Display is only 64 pixels wide, so this is pesimistic, but we have RAM, and this isn't the kind of problem that matters unless we need to move to new hardware, in which case we need to think long and hard about these kind of things
+	char buffer[bufferLen];
 };

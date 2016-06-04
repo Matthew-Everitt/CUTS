@@ -62,19 +62,32 @@ void setupDisplay() {
 
 	menu = &topMenu;
 
-	disp.setFont(u8g_font_04b_03r);
+	//disp.setFont(u8g_font_profont10); 
+	//disp.setFont(u8g_font_04b_03);
+	//disp.setFont(u8g_font_4x6);
+	//disp.setFont(u8g_font_5x8);
+	disp.setFont(u8g_font_5x7);
 	//   disp.setFont(u8g_font_6x10);
 	//   disp.setFont(u8g_font_6x13);
 	displayProperties.fontHeight = disp.getFontAscent() - disp.getFontDescent();
+	displayProperties.fontWidth= disp.getStrWidth(" ");
+	
 	displayProperties.infoBarHeight = displayProperties.fontHeight;
-	displayProperties.nRows = (disp.getHeight() - displayProperties.infoBarHeight) % displayProperties.fontHeight;
+
+
+	displayProperties.nRows = (disp.getHeight() - displayProperties.infoBarHeight) / displayProperties.fontHeight;
+	displayProperties.nCols = disp.getWidth() / displayProperties.fontWidth; //Requires a monospace font
+
 	displayProperties.before = displayProperties.nRows / 2;
 	displayProperties.after = displayProperties.nRows - displayProperties.before;
 	displayProperties.before--;
 
+
+
 	Serial.print("Before :  "); Serial.println(displayProperties.before);
 	Serial.print("After  :  "); Serial.println(displayProperties.after);
 	Serial.print("nRows  :  "); Serial.println(displayProperties.nRows);
+	Serial.print("nCols  :  "); Serial.println(displayProperties.nCols);
 	disp.setColorIndex(1); // Instructs the display to draw with a pixel on. 
 
 
