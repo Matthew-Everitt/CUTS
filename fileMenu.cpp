@@ -42,7 +42,7 @@ void fileMenu_t::load(void) {
 const char * fileMenu_t::getString(int index) {
 
 	File file;
-	file.open(&dir, this->fileIndicies[index], O_READ);
+	file.open(&(this->dir), this->fileIndicies[index], O_READ);
 
 	file.getName(this->buffer, this->bufferLen);
 	file.close();
@@ -51,8 +51,13 @@ const char * fileMenu_t::getString(int index) {
 }
 
 void fileMenu_t::select() {
-	Serial.println("Changing menu (file)");
-	//menu = this->menus[this->selected];
-	//menu->load();
+	Serial.println("File selected");
+	File file;
+	file.open(&(this->dir), this->fileIndicies[this->selected], O_READ);
+	if (file.isDir()) {
+		Serial.println("Enter dir");
+	} else {
+		Serial.println("Open file");
+	}
 }
 

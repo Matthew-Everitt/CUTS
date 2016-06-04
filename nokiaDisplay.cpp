@@ -106,14 +106,14 @@ void updateMainDisplay() {
 
 void updateDisplay() {
 
-	unsigned long  start = micros();
+	//unsigned long  start = micros();
 	updateEncoder();
 	updateMainDisplay();
-	unsigned long  now = micros();
+	//unsigned long  now = micros();
 
-	Serial.print("Took ");
-	Serial.print(now - start);
-	Serial.println(" us");
+	//Serial.print("Took ");
+	//Serial.print(now - start);
+	//Serial.println(" us");
 	//delay(100);
 	systemState.percentage++;
 	systemState.percentage = systemState.percentage % 101;
