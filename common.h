@@ -1,4 +1,12 @@
 #pragma once
+
+//These are more dangerous than the Arduino default using typeof, but visual studio objects to them at some level.
+//Main thing to remember is that the arguments to these get evaluated repeatedly, so something like x++ is probably not a smart argument.
+#undef max
+#define max(a,b) ( (a)>(b)?(a):(b) )
+#undef min
+#define min(a,b) ( (a)<(b)?(a):(b) )
+
 #include <U8glib.h>
 #include <Encoder.h>
 #include <Arduino.h>
