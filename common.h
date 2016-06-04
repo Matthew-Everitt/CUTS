@@ -92,8 +92,8 @@ typedef uint8_t bit;
 
 
 typedef struct{
-  bool overwrite;
-  bool detokenise;
+  bool overwrite = false;
+  bool detokenise = true;
 } settings_t;
 
 typedef struct{

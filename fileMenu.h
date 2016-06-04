@@ -3,7 +3,7 @@
 #include "baseMenu.h"
 #include "common.h"
 
-int compareInts(const void * a, const void * b);
+int compareUint16s(const void * a, const void * b);
 
 class fileMenu_t : public virtual baseMenu_t {
 public:

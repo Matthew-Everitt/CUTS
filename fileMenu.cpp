@@ -113,6 +113,11 @@ const char * fileMenu_t::getString(int index) {
 	file.open(&(this->dir), this->fileIndicies[index], O_READ);
 
 	file.getName(this->buffer, this->bufferLen);
+	if (file.isDir()) {
+		size_t len = strlen(buffer);
+		buffer[len] = '/';
+		buffer[len + 1] = '\0';
+	}
 	file.close();
 
 	return this->buffer;
