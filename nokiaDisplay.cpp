@@ -76,18 +76,23 @@ void setupDisplay() {
 
 
 	displayProperties.nRows = (disp.getHeight() - displayProperties.infoBarHeight) / displayProperties.fontHeight;
-	displayProperties.nCols = disp.getWidth() / displayProperties.fontWidth; //Requires a monospace font
+	displayProperties.nCols = disp.getWidth() / displayProperties.fontWidth; //Requires a monospace font, so not always reliable
 
+
+	/*Serial.print("We have "); Serial.print(displayProperties.nRows); Serial.println(" for menu items.");
+	Serial.print("Obviously we need one for the active item.");*/
 	displayProperties.before = displayProperties.nRows / 2;
+	//Serial.print("Asign "); Serial.print(displayProperties.before); Serial.print(" rows before the active");
 	displayProperties.after = displayProperties.nRows - displayProperties.before;
 	displayProperties.before--;
+	//Serial.print("Leaving "); Serial.print(displayProperties.before); Serial.print(" to go after");
+	//Serial.print("Thats a total of "); Serial.print(1 + displayProperties.before + displayProperties.after);
 
 
-
-	Serial.print("Before :  "); Serial.println(displayProperties.before);
-	Serial.print("After  :  "); Serial.println(displayProperties.after);
-	Serial.print("nRows  :  "); Serial.println(displayProperties.nRows);
-	Serial.print("nCols  :  "); Serial.println(displayProperties.nCols);
+	//Serial.print("Before :  "); Serial.println(displayProperties.before);
+	//Serial.print("After  :  "); Serial.println(displayProperties.after);
+	//Serial.print("nRows  :  "); Serial.println(displayProperties.nRows);
+	//Serial.print("nCols  :  "); Serial.println(displayProperties.nCols);
 	disp.setColorIndex(1); // Instructs the display to draw with a pixel on. 
 
 
