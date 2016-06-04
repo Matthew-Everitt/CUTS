@@ -1,5 +1,6 @@
 #include "fileMenu.h"
 #include "baseMenu.h"
+
 #include "menu.h"
 extern menu_t * menu;
 extern SdFat SD;
@@ -13,7 +14,7 @@ fileMenu_t::fileMenu_t(menu_t *  parent) : baseMenu_t::baseMenu_t(parent) {}
 
 void fileMenu_t::load(void) {
 	Serial.println("Loading some files maybe?");
-
+	
 	if (!dir.isOpen()) {
 		this->dir.open("/");
 		this->path[0] = '/';
@@ -166,6 +167,9 @@ void fileMenu_t::select() {
 		this->selected = 0;
 		this->load();
 	} else {
+		this->sendMenu.parent = this;
+		menu = &(this->sendMenu);
+		menu->load();
 		Serial.println("Open file");
 	}
 	file.close();

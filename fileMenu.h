@@ -3,9 +3,12 @@
 #include "baseMenu.h"
 #include "common.h"
 
+#include "fileSendMenu.h"
+
 int compareUint16s(const void * a, const void * b);
 
 class fileMenu_t : public virtual baseMenu_t {
+	friend class sendFileMenu_t; //Seems simpler to let the child access the dir etc
 public:
 	fileMenu_t(menu_t * parent);
 	void load();
@@ -27,4 +30,7 @@ private:
 	void getParentDir(void);
 
 	FatFile dir;
+
+	fileSendMenu_t sendMenu = NULL;
+	bool sendMenuCreated = false;
 };

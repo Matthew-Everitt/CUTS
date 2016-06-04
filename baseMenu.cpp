@@ -87,7 +87,7 @@ void baseMenu_t::draw() {
 
 
 void baseMenu_t::unload() {
-	if (this->parent != NULL) {
+	if (this->parent != NO_PARENT) {
 		menu = this->parent;
 		menu->load();
 	}
