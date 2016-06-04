@@ -18,11 +18,13 @@ private:
 	uint16_t fileIndicies[N_FILE_INDICIES_TO_CACHE];
 
 	static const int pathLen = 128;
-	char path[pathLen+1];
+	char path[pathLen+5];
 	char * pathEnd = path;
 
 	static const int bufferLen = 128;
 	char buffer[bufferLen];
+
+	void getParentDir(void);
 
 	FatFile dir;
 };

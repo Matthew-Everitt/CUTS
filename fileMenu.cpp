@@ -4,8 +4,8 @@
 extern menu_t * menu;
 extern SdFat SD;
 
-int compareInts(const void * a, const void * b) {
-	return (*(int*)a - *(int*)b);
+int compareUint16s(const void * a, const void * b) {
+	return (*(uint16_t*)a - *(uint16_t*)b);
 }
 
 
@@ -16,6 +16,9 @@ void fileMenu_t::load(void) {
 
 	if (!dir.isOpen()) {
 		this->dir.open("/");
+		this->path[0] = '/';
+		this->path[1] = '\0';
+		this->pathEnd = this->path + 1;
 	}
 
 
@@ -48,18 +51,22 @@ void fileMenu_t::load(void) {
 
 
 void fileMenu_t::unload(void) {
+
 	if (this->dir.isRoot()) { //If we've run out of directories load the previous menu
 		Serial.println("Moving back to menus");
+		this->dir.close();
 		menu = this->parent;
 		menu->load();
 	}
 	else { //Otherwise move to the parent dir
 		Serial.println("Moving to parent directory");
-
+		this->getParentDir();
+		Serial.print("Parent dir is ");
+		Serial.println(this->path);
 		FatFile nextDir;
 		bool r;
 		//nextDir.openParent(&(this->dir);
-		r = nextDir.open(&(this->dir), "..", O_READ);
+		r = nextDir.open(SD.vwd(), this->path, O_READ);
 
 		Serial.println(r ? "Ok" : "Fail");
 
@@ -74,14 +81,29 @@ void fileMenu_t::unload(void) {
 
 
 		uint16_t index = this->dir.dirIndex();
-		uint16_t *pos = (uint16_t*)bsearch(&index, this->fileIndicies, this->nEntries, sizeof(uint16_t), compareInts);
 
-		this->selected = this->fileIndicies - pos;
-
+		Serial.print("The directory we are leaving is index ");
+		Serial.print(index);
+		Serial.print(" in its parent directory (");
+		Serial.print(this->buffer);
+		Serial.println(")");
+		//rebuild table
 		this->dir.close();
 		this->dir = nextDir;
-
 		this->load();
+		for (uint16_t i = 0; i < this->nEntries; i++) {
+			Serial.print(i); Serial.print(",0x"); Serial.print((int)(this->fileIndicies + i), HEX); Serial.print(","); Serial.println(this->fileIndicies[i]);
+		}
+
+		uint16_t *pos = (uint16_t*)bsearch(&index, this->fileIndicies, this->nEntries, sizeof(uint16_t), compareUint16s);
+		Serial.print("bsearch puts it at 0x");
+		Serial.println((int)pos, HEX);
+
+		this->selected = pos - this->fileIndicies;
+		Serial.print("Which puts the selected as ");
+		Serial.println(this->selected);
+
+		
 	}
 }
 
@@ -103,28 +125,28 @@ void fileMenu_t::select() {
 	File file;
 	file.open(&(this->dir), this->fileIndicies[this->selected], O_READ);
 
-	file.getName(this->buffer, this->bufferLen);
-	Serial.println(this->buffer);
-
-	Serial.print("Path changing from \"");
-	Serial.print(this->path);
-	Serial.print("\" to \"");
-
-	size_t toCopy = min( (this->pathLen - (this->pathEnd - this->path)) , strlen(buffer) );
-	strncpy(this->pathEnd, buffer, toCopy);
-
-
-	this->pathEnd += toCopy;
-	*(this->pathEnd) = '/';
-	this->pathEnd++;
-	*(this->pathEnd) = '\0';
-	
-
-	Serial.print(this->path);
-	Serial.println("\"");
-
 	if (file.isDir()) {
-		Serial.println("Enter dir");
+		Serial.print("Enter dir ");
+
+		file.getName(this->buffer, this->bufferLen);
+		Serial.println(this->buffer);
+
+		Serial.print("Path changing from \"");
+		Serial.print(this->path);
+		Serial.print("\" to \"");
+
+		size_t toCopy = min((this->pathLen - (this->pathEnd - this->path)), strlen(buffer));
+		strncpy(this->pathEnd, buffer, toCopy);
+
+
+		this->pathEnd += toCopy;
+		*(this->pathEnd) = '/';
+		this->pathEnd++;
+		*(this->pathEnd) = '\0';
+
+
+		Serial.print(this->path);
+		Serial.println("\"");
 
 		FatFile nextDir;
 
@@ -133,14 +155,36 @@ void fileMenu_t::select() {
 		this->dir.close();
 
 		this->dir = nextDir;
-
+		this->selected = 0;
 		this->load();
 	}
 	else {
 		Serial.println("Open file");
 	}
 	file.close();
-	this->selected = 0;
+	
 
+}
+
+void fileMenu_t::getParentDir(void) {
+	this->pathEnd -= 2;
+	while (*(this->pathEnd) != '/') {
+
+		//Cover our asses, if we hit the start of the buffer just make it look right and return
+		if (this->pathEnd <= this->path) {
+			*(this->path) = '/';
+			*(this->path + 1) = '\0';
+			this->pathEnd = this->path + 1;
+			return;
+		}
+
+		this->pathEnd--;
+	}
+	this->pathEnd++; //Include the '/'
+	*(this->pathEnd) = '\0';
+	Serial.print("Path changing to\"");
+	Serial.print(this->path);
+	Serial.println("\"");
+	return;
 }
 

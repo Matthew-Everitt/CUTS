@@ -156,6 +156,7 @@ void drawInfoBar(void) {
 		disp.drawBox(0, disp.getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight), displayProperties.infoBarHeight);
 	}
 
+	buf[0] = '@';
 	disp.drawStr(disp.getWidth() - disp.getStrWidth(buf), disp.getHeight(), buf);
 }
 
