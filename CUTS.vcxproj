@@ -132,6 +132,7 @@
     <ClInclude Include="fileMenu.h">
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClInclude Include="fileSendMenu.h" />
     <ClInclude Include="FileTools.h">
       <FileType>CppCode</FileType>
     </ClInclude>
@@ -160,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fileMenu.cpp" />
+    <ClCompile Include="fileSendMenu.cpp" />
     <ClCompile Include="FileTools.cpp" />
     <ClCompile Include="namedFile.cpp" />
     <ClCompile Include="nokiaDisplay.cpp" />
