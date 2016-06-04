@@ -78,15 +78,15 @@ void setupDisplay() {
 	displayProperties.nCols = disp.getWidth() / displayProperties.fontWidth; //Requires a monospace font, so not always reliable
 
 
-	/*Serial.print("We have "); Serial.print(displayProperties.nRows); Serial.println(" for menu items.");
-	Serial.print("Obviously we need one for the active item.");*/
+	Serial.print("We have "); Serial.print(displayProperties.nRows); Serial.println(" slots for menu items.");
+	Serial.println("Obviously we need one for the active item.");
 	displayProperties.before = displayProperties.nRows / 2;
-	//Serial.print("Asign "); Serial.print(displayProperties.before); Serial.print(" rows before the active");
+	Serial.print("Assign "); Serial.print(displayProperties.before); Serial.println(" rows before the active");
 	displayProperties.after = displayProperties.nRows - displayProperties.before;
-	displayProperties.before--;
-	//Serial.print("Leaving "); Serial.print(displayProperties.before); Serial.print(" to go after");
-	//Serial.print("Thats a total of "); Serial.print(1 + displayProperties.before + displayProperties.after);
-
+	if (isOdd(displayProperties.nRows % 2 )) displayProperties.before--;
+	Serial.print("Leaving "); Serial.print(displayProperties.after); Serial.println(" to go after");
+	Serial.print("Thats a total of "); Serial.println(1 + displayProperties.before + displayProperties.after);
+	
 
 	//Serial.print("Before :  "); Serial.println(displayProperties.before);
 	//Serial.print("After  :  "); Serial.println(displayProperties.after);
@@ -122,15 +122,18 @@ void updateMainDisplay() {
 }
 
 void updateDisplay() {
-
+#ifdef verboseDisplayTime
 	unsigned long  start = micros();
+#endif
 	updateEncoder();
 	updateMainDisplay();
+#ifdef verboseDisplayTime
 	unsigned long  now = micros();
 
 	Serial.print("Took ");
 	Serial.print(now - start);
 	Serial.println(" us");
+#endif
 	//delay(100);
 	systemState.percentage++;
 	systemState.percentage = systemState.percentage % 101;

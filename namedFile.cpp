@@ -292,7 +292,7 @@ void namedFile::RX(byte b, String defaultFilename = "default.file") {
 	static uint8_t pos = 0;
 
 #ifdef reportFunctionCalls
-	char * byteFunctionNames[nFunctions] = { "header", "filename", "blockFlag", "blockNumber", "blockLength", "executionAddr", "loadAddr", "data", "checksum" };
+	const char * byteFunctionNames[nFunctions] = { "header", "filename", "blockFlag", "blockNumber", "blockLength", "executionAddr", "loadAddr", "data", "checksum" };
 	Serial.print("Running function "); Serial.println(byteFunctionNames[pos]);
 #endif
 

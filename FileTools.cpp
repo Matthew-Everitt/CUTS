@@ -37,80 +37,80 @@ int bytesToString(float bytes, char * buffer, int n) {
 float freeSpace() {
 	return 512.0 * SD.vol()->freeClusterCount() * SD.vol()->blocksPerCluster();
 }
-
-byte longNameToShortName(char * longName, char * out) {
-	//longName must be a sensible C string ( with a \0 terminator ). There is a limit of 100 chars (to prevent us reading forever if there are no zeros)
-	char * p = longName;
-	char * dot;
-	byte i = 0;
-	byte nameLength = 0;
-	bool tooLong = false;
-
-	name_t name;
-
-	//Find the last '.', giving us the extension
-	while (*p != '\0' && p < longName + 100) p++; //Go to the end of the string
-	while (*p != '.'  && p > longName) p--; //Go back to the period
-
-	dot = p;
-
-	for (i = 0; i < 3; i++) {
-		*(name.ext + i) = *(dot + i + 1);
-		if (*(dot + i) == '\0') {
-			break;
-		}
-	}
-	*(name.ext + i) = '\0';
-
-	nameLength = dot - longName;
-	if (nameLength > 8) {
-		nameLength = 6;
-		tooLong = true;
-	}
-	for (i = 0; i < nameLength; i++) {
-		if (*(longName + i) == '.') {
-			*(name.name + i) = '\0';
-			break;
-		}
-		*(name.name + i) = *(longName + i);
-	}
-
-	if (tooLong) {
-		*(name.name + 6) = SEP_CHAR;
-		*(name.name + 7) = '1';
-	}
-
-	return nameToString(name, out);
-
-}
-
-byte nameToString(name_t name, char * string) {
-	char * p = string;
-	char * i = name.name;
-	while (*i != '\0') {
-		*p = *i;
-		p++;
-		i++;
-	}
-
-	*p = '.';
-	p++;
-
-	i = name.ext;
-	while (*i != '\0') {
-		*p = *i;
-		p++;
-		i++;
-	}
-	*p = '\0';
-	return p - string;
-}
-
-void printName(name_t name) {
-	Serial.print(name.name);
-	Serial.print(".");
-	Serial.println(name.ext);
-}
+//
+//byte longNameToShortName(char * longName, char * out) {
+//	//longName must be a sensible C string ( with a \0 terminator ). There is a limit of 100 chars (to prevent us reading forever if there are no zeros)
+//	char * p = longName;
+//	char * dot;
+//	byte i = 0;
+//	byte nameLength = 0;
+//	bool tooLong = false;
+//
+//	name_t name;
+//
+//	//Find the last '.', giving us the extension
+//	while (*p != '\0' && p < longName + 100) p++; //Go to the end of the string
+//	while (*p != '.'  && p > longName) p--; //Go back to the period
+//
+//	dot = p;
+//
+//	for (i = 0; i < 3; i++) {
+//		*(name.ext + i) = *(dot + i + 1);
+//		if (*(dot + i) == '\0') {
+//			break;
+//		}
+//	}
+//	*(name.ext + i) = '\0';
+//
+//	nameLength = dot - longName;
+//	if (nameLength > 8) {
+//		nameLength = 6;
+//		tooLong = true;
+//	}
+//	for (i = 0; i < nameLength; i++) {
+//		if (*(longName + i) == '.') {
+//			*(name.name + i) = '\0';
+//			break;
+//		}
+//		*(name.name + i) = *(longName + i);
+//	}
+//
+//	if (tooLong) {
+//		*(name.name + 6) = SEP_CHAR;
+//		*(name.name + 7) = '1';
+//	}
+//
+//	return nameToString(name, out);
+//
+//}
+//
+//byte nameToString(name_t name, char * string) {
+//	char * p = string;
+//	char * i = name.name;
+//	while (*i != '\0') {
+//		*p = *i;
+//		p++;
+//		i++;
+//	}
+//
+//	*p = '.';
+//	p++;
+//
+//	i = name.ext;
+//	while (*i != '\0') {
+//		*p = *i;
+//		p++;
+//		i++;
+//	}
+//	*p = '\0';
+//	return p - string;
+//}
+//
+//void printName(name_t name) {
+//	Serial.print(name.name);
+//	Serial.print(".");
+//	Serial.println(name.ext);
+//}
 
 
 bool modifyFilename(char * filename) {

@@ -1,12 +1,5 @@
 #pragma once
 
-//These are more dangerous than the Arduino default using typeof, but visual studio objects to them at some level.
-//Main thing to remember is that the arguments to these get evaluated repeatedly, so something like x++ is probably not a smart argument.
-#undef max
-#define max(a,b) ( (a)>(b)?(a):(b) )
-#undef min
-#define min(a,b) ( (a)<(b)?(a):(b) )
-
 #include <U8glib.h>
 #include <Encoder.h>
 #include <Arduino.h>
@@ -14,64 +7,30 @@
 #include <stdbool.h>
 #include <SdFat.h>
 
+//These are more dangerous than the Arduino default using typeof, but visual studio objects to them at some level.
+//Main thing to remember is that the arguments to these get evaluated repeatedly, so something like x++ is probably not a smart argument.
+#undef max
+#define max(a,b) ( (a)>(b)?(a):(b) )
+#undef min
+#define min(a,b) ( (a)<(b)?(a):(b) )
 
-extern SdFat SD;
+#define isOdd(x) ((x%2)==1)
+#define isEven(x) ((x%2)==0)
+
+#include "pinout.h"
+#include "debugLevels.h"
+
 
 #define carrierTimer Timer1
-// #define chatty
-#define reportFunctionCalls
-#define reportBlockDetails
 
 
-#ifdef chatty
-#define detailedChecksum
-#define rawBytes
-#define twoByteNumbers
-#define reportFreqChanges
-#define reportFunctionCalls
-#define reportBlockDetails
-#define reportCarrierState
-#define verboseFile
-#define reportRawBits
-#endif
-
-
-
-
-
-
-enum pins {
-	//LCD display pins
-	//TODO - Check these, I think DC & RST are swapped
-	dispCLK = 18,
-	dispMOSI = 19,
-	dispSCE = 22,
-	dispRST = 20,
-	dispDC = 21,
-	dispLED = 23,
-
-	//Rotary encoder pins
-	encPin1 = 9,
-	encPin2 = 10,
-	encButt = 11,
-
-	//Simple buttons
-	playBut = 3, //Not used?
-	backBut = 2,
-
-	//CUTS interface pins
-	inputPin = 15,
-	outputPin = 13,
-
-	//SD card pins
-	chipSelect = 6,
-	sdMOSI = 7,
-	sdMISO = 12,
-	sdSCK = 14,
-};
-
-
+extern SdFat SD;
 typedef uint8_t byte;
+typedef uint8_t bit;
+
+/*Prototype for the byte handing functions. Functions take the byte as input, and return 'finished', so true means move on to next function, false means pass next byte to this function*/
+typedef bool(*byteHandler)(byte b);
+
 
 typedef enum frequencies {
 	lowFreq = 0,
@@ -82,21 +41,18 @@ typedef enum frequencies {
 
 class format {
 public:
-	virtual void RX(byte b, String defaultFilename) = 0; //We recieve data from the Atom one byte at a time
+	virtual void RX(byte b, String defaultFilename) = 0; //We receive data from the Atom one byte at a time
 	virtual void TX(File * file) = 0; //But we might as well send an entire file at once.
 };
 
 
-typedef struct {
-	char name[9];
-	char ext[4];
-} name_t;
+//typedef struct {
+//	char name[9];
+//	char ext[4];
+//} name_t;
 
 
-/*Prototype for the byte handing functions. Functions take the byte as input, and return 'finished', so true means move on to next function, false means pass next byte to this function*/
-typedef bool(*byteHandler)(byte b);
 
-typedef uint8_t bit;
 
 
 typedef struct {

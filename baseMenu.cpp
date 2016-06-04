@@ -31,9 +31,9 @@ void baseMenu_t::changeSelected(int s) {
 void baseMenu_t::draw() {
 	//   //Serial.print("Selected is ");
 	//   //Serial.println(this->selected);
-	int count = min(displayProperties.nRows - 1, this->nEntries);
+	int count = min(displayProperties.nRows , this->nEntries);
 	int start = (int)(this->selected - displayProperties.before); //Have some before the selected.
-	int correction = min(0, (int)(this->nEntries - (this->selected + displayProperties.after))); //Step back to get the 
+	int correction = min(0, (int)(this->nEntries - (this->selected + displayProperties.after + 1 ))); //Step back to get the 
 
 	//   //Serial.print( count );
 	//   //Serial.println( " lines to print.");

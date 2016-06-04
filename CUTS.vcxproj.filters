@@ -57,6 +57,12 @@
     <ClInclude Include="settingsMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pinout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="debugLevels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fileMenu.cpp">
