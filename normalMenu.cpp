@@ -6,14 +6,14 @@ extern menu_t * menu;
 normalMenu_t::normalMenu_t(menu_t *  parent) : baseMenu_t::baseMenu_t(parent) {}
 
 
-char * normalMenu_t::getString(int index) {
+const char * normalMenu_t::getString(int index) {
 	return this->strings[index];
 }
 void normalMenu_t::setMenus(menu_t ** menus) {
 	this->menus = menus;
 }
 
-void normalMenu_t::setStrings(char ** strings) {
+void normalMenu_t::setStrings(const char ** strings) {
 	this->strings = strings;
 }
 void normalMenu_t::select() {

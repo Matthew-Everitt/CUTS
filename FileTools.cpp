@@ -12,7 +12,6 @@ void setupSD() {
 	SPI.setMISO(sdMISO);
 	SPI.setSCK(sdSCK);
 
-
 	if (SD.begin(chipSelect)) {
 		systemState.sdPresent = true;
 		systemState.freeSpace = freeSpace();

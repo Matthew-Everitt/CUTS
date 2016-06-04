@@ -33,7 +33,6 @@ menu_t *  menu;
 debounceISR(encButt) {
 	Serial.println("BEEP");
 	menu->select();
-	systemState.redrawNeeded = true;
 }
 
 debounceISR(playBut) {
@@ -91,7 +90,6 @@ void updateEncoder() {
 		if (change != 0) {
 			menu->changeSelected(change);
 			previousP += change;
-			systemState.redrawNeeded = true;
 		}
 	}
 }
@@ -107,14 +105,15 @@ void updateMainDisplay() {
 }
 
 void updateDisplay() {
-	static unsigned long  last = 0;
-	unsigned long  now = micros();
-	//Serial.print("Took ");
-	//Serial.print(now - last);
-	//Serial.println(" us");
-	last = now;
+
+	unsigned long  start = micros();
 	updateEncoder();
 	updateMainDisplay();
+	unsigned long  now = micros();
+
+	Serial.print("Took ");
+	Serial.print(now - start);
+	Serial.println(" us");
 	//delay(100);
 	systemState.percentage++;
 	systemState.percentage = systemState.percentage % 101;
@@ -129,7 +128,7 @@ void drawInfoBar(void) {
 
 	//Progress 
 	char buf[10];
-	char *space;
+	const char *space;
 	if (systemState.percentage == 100) {
 		space = "";
 	}
@@ -157,9 +156,6 @@ void drawInfoBar(void) {
 		disp.drawBox(0, disp.getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight), displayProperties.infoBarHeight);
 	}
 
-	byte n = bytesToString(systemState.freeSpace, buf, 10);
 	disp.drawStr(disp.getWidth() - disp.getStrWidth(buf), disp.getHeight(), buf);
-
-
 }
 

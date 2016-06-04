@@ -10,7 +10,7 @@ class baseMenu_t : public virtual menu_t{
     void unload( );
 
 	virtual void select() = 0;
-	virtual char * getString(int i) = 0;
+	virtual const char * getString(int i) = 0;
 
     int nEntries;
     int selected = 0;

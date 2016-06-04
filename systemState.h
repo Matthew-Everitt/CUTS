@@ -11,7 +11,6 @@ typedef struct{
   float freeSpace;
   byte percentage;
   bool sdPresent;
-  bool redrawNeeded = true;
 } systemState_t;
 
 extern systemState_t systemState;

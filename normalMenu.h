@@ -6,13 +6,13 @@
 class normalMenu_t : public virtual baseMenu_t {
 public:
 	normalMenu_t(menu_t * parent);
-	char * getString(int index);
+	const char * getString(int index);
 	void select();
 	void load();
 	void setMenus(menu_t ** menus);
-	void setStrings(char ** strings);
+	void setStrings(const char ** strings);
 
 private:
-	char ** strings;
+	const char ** strings;
 	menu_t ** menus;
 };

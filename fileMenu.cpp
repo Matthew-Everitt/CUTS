@@ -6,32 +6,39 @@ extern SdFat SD;
 
 
 
-fileMenu_t::fileMenu_t ( menu_t *  parent ): baseMenu_t::baseMenu_t(parent) {}
+fileMenu_t::fileMenu_t(menu_t *  parent) : baseMenu_t::baseMenu_t(parent) {}
 
-void fileMenu_t::load ( void ){
-  Serial.println("Loading some files maybe?");
-  char * path = "/test/";
-  this->dir.open(path);
-  this->dir.rewind();
-  this->nEntries = 0;
-  this->lastOpened = 0;
-  FatFile file;
-  char buffer[128];
-  while (file.openNext(&(this->dir), O_READ)) {
-	  Serial.print("Entry ");
-	  Serial.print(this->nEntries);
-	  Serial.print(" ( \"");
-	  file.getName(buffer, 128);
-	  Serial.print(buffer);
-	  Serial.print("\" ) at index ");
-	  Serial.println(file.dirIndex());
-	  this->nEntries++;
-	  file.close();
-  }
+void fileMenu_t::load(void) {
+	Serial.println("Loading some files maybe?");
+	const char * path = "/test/";
+	this->dir.open(path);
+	this->dir.rewind();
+	this->nEntries = 0;
+	this->lastOpened = 0;
+	FatFile file;
+
+	char buffer[128]; //For debug
+
+	//For now just rely on there being enough space in the index array. Obviously fix this, at least to the level of stopping to avoid overflow
+	while (file.openNext(&(this->dir), O_READ)) {
+		//Debug logging
+		Serial.print("Entry ");
+		Serial.print(this->nEntries);
+		Serial.print(" ( \"");
+		file.getName(buffer, 128);
+		Serial.print(buffer);
+		Serial.print("\" ) at index ");
+		Serial.println(file.dirIndex());
+
+		//Actual things
+		this->fileIndicies[this->nEntries] = file.dirIndex();
+		this->nEntries++;
+		file.close();
+	}
 }
 
-char * fileMenu_t::getString(int index) {
-	
+const char * fileMenu_t::getString(int index) {
+
 	File file;
 
 	static char buffer[128];
@@ -46,20 +53,7 @@ char * fileMenu_t::getString(int index) {
 
 	//		*	Lookup table as above, but pageified / cached like the other ideas, but using less RAM than strings. Seems reasonably easy to have an array of N, from m to m+N, and update (shift) by N/2 when we reach the edge. That way we always have a reasonable margin to move back and forth without having to recalculate. To make life easier we may be able to use get/setPos on the dir file to record where the transitions are, which can be calculated when we find the # of files at load.
 
-	if (index < this->lastOpened) {
-		this->lastOpened = 0;
-		this->dir.rewind();
-	}
-
-
-
-	//Serial.print("Asked for entry "); Serial.println(index);
-	for (int i = this->lastOpened; i <= index - 1; i++) { 
-		file.openNext( &(this->dir) );
-		file.close();
-	}
-	file.openNext(&(this->dir));
-	//file.open(&dir, index, O_READ);
+	file.open(&dir, this->fileIndicies[index], O_READ);
 	file.getName(buffer, 128);
 	file.close();
 
