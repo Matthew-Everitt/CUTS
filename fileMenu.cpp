@@ -16,7 +16,6 @@ void fileMenu_t::load(void) {
 	this->nEntries = 0;
 	FatFile file;
 
-	char buffer[128]; //For debug
 
 	//For now just rely on there being enough space in the index array. Obviously fix this, at least to the level of stopping to avoid overflow
 	while (file.openNext(&(this->dir), O_READ)) {
@@ -24,8 +23,8 @@ void fileMenu_t::load(void) {
 		//Serial.print("Entry ");
 		//Serial.print(this->nEntries);
 		//Serial.print(" ( \"");
-		//file.getName(buffer, 128);
-		//Serial.print(buffer);
+		//file.getName(this->buffer, this->bufferLen);
+		//Serial.print(this->buffer);
 		//Serial.print("\" ) at index ");
 		//Serial.println(file.dirIndex());
 
@@ -43,14 +42,12 @@ void fileMenu_t::load(void) {
 const char * fileMenu_t::getString(int index) {
 
 	File file;
-
-	static char buffer[128];
-
 	file.open(&dir, this->fileIndicies[index], O_READ);
-	file.getName(buffer, 128);
+
+	file.getName(this->buffer, this->bufferLen);
 	file.close();
 
-	return buffer;
+	return this->buffer;
 }
 
 void fileMenu_t::select() {
