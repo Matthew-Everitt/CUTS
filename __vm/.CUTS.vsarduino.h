@@ -65,6 +65,8 @@ typedef void *__builtin_va_list;
 #include <debugLevels.h>
 #include <fileMenu.cpp>
 #include <fileMenu.h>
+#include <fileSendMenu.cpp>
+#include <fileSendMenu.h>
 #include <menu.h>
 #include <menuDefinitions.h>
 #include <namedFile.cpp>

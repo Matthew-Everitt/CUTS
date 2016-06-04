@@ -25,6 +25,10 @@ const char * settingsMenu_t::getString(int index) {
 		name = "Tokenise";
 		state = this->boolToString(settings.tokenise);
 		break;
+	case SEND_NAMED:
+		name = "Send named";
+		state = this->boolToString(settings.sendNamed);
+		break;
 	default:
 		name = "Error";
 		state = "Error";
@@ -45,13 +49,16 @@ void settingsMenu_t::select() {
 	case TOKENISE:
 		settings.tokenise = !settings.tokenise;
 		break;
+	case SEND_NAMED:
+		settings.sendNamed = !settings.sendNamed;
+		break;
 	default:
-		Serial.print("Wha!? "); Serial.print(__LINE__); Serial.print(" of "); Serial.print(__FILE__);
+		Serial.print(this->selected); Serial.print(" is not a known setting @ line "); Serial.print(__LINE__); Serial.print(" of "); Serial.print(__FILE__);
 	}
 }
 
 void settingsMenu_t::load() {
-	this->nEntries = 3;
+	this->nEntries = N_SETTINGS;
 }
 
 const char * settingsMenu_t::boolToString(bool b) {

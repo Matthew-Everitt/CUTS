@@ -53,22 +53,23 @@ void fileMenu_t::load(void) {
 void fileMenu_t::unload(void) {
 
 	if (this->dir.isRoot()) { //If we've run out of directories load the previous menu
-		Serial.println("Moving back to menus");
+		//Serial.println("Moving back to menus");
 		this->dir.close();
 		menu = this->parent;
 		menu->load();
 	} else { //Otherwise move to the parent dir
-		Serial.println("Moving to parent directory");
 		this->getParentDir();
-		Serial.print("Parent dir is ");
+#ifdef verbosePathManagement
+		Serial.print("Moving to parent directory :  ");
 		Serial.println(this->path);
+#endif
 		FatFile nextDir;
 		bool r;
 		//nextDir.openParent(&(this->dir);
 		r = nextDir.open(SD.vwd(), this->path, O_READ);
 
-		Serial.println(r ? "Ok" : "Fail");
-
+		//Serial.println(r ? "Ok" : "Fail");
+#ifdef verbosePathManagement
 		Serial.print("Moving from \"");
 		this->dir.getName(this->buffer, this->bufferLen);
 		Serial.print(this->buffer);
@@ -79,28 +80,31 @@ void fileMenu_t::unload(void) {
 		Serial.println("\"");
 
 
-		uint16_t index = this->dir.dirIndex();
+		
 
 		Serial.print("The directory we are leaving is index ");
 		Serial.print(index);
 		Serial.print(" in its parent directory (");
 		Serial.print(this->buffer);
 		Serial.println(")");
+#endif
+
+		uint16_t index = this->dir.dirIndex(); //take note of where the current directory appears in its parent, so we can go back to highlighting it
+
 		//rebuild table
 		this->dir.close();
 		this->dir = nextDir;
 		this->load();
-		for (uint16_t i = 0; i < this->nEntries; i++) {
-			Serial.print(i); Serial.print(",0x"); Serial.print((int)(this->fileIndicies + i), HEX); Serial.print(","); Serial.println(this->fileIndicies[i]);
-		}
-
+		//for (uint16_t i = 0; i < this->nEntries; i++) {
+		//	Serial.print(i); Serial.print(",0x"); Serial.print((int)(this->fileIndicies + i), HEX); Serial.print(","); Serial.println(this->fileIndicies[i]);
+		//}
 		uint16_t *pos = (uint16_t*)bsearch(&index, this->fileIndicies, this->nEntries, sizeof(uint16_t), compareUint16s);
-		Serial.print("bsearch puts it at 0x");
-		Serial.println((int)pos, HEX);
+		//Serial.print("bsearch puts it at 0x");
+		//Serial.println((int)pos, HEX);
 
 		this->selected = pos - this->fileIndicies;
-		Serial.print("Which puts the selected as ");
-		Serial.println(this->selected);
+		//Serial.print("Which puts the selected as ");
+		//Serial.println(this->selected);
 
 
 	}

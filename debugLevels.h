@@ -20,3 +20,7 @@
 #ifdef verboseTimings //Timing benchmarks
 #define verboseDisplayTime
 #endif
+
+#ifdef verboseFileDisplay //Debug levels for the SD card exploration menus
+#define verbosePathManagement
+#endif

@@ -59,6 +59,7 @@ typedef struct {
 	bool overwrite = false;
 	bool detokenise = true;
 	bool tokenise = true;
+	bool sendNamed = true;
 } settings_t;
 
 typedef struct {

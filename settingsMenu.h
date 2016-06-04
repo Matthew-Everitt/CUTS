@@ -12,6 +12,8 @@ private:
 		OVERWRITE,
 		DETOKENISE,
 		TOKENISE,
+		SEND_NAMED,
+		N_SETTINGS,
 	};
 	const char * boolToString(bool b);
 
