@@ -8,17 +8,11 @@ baseMenu_t::baseMenu_t ( menu_t *  parent ){
   this -> parent = parent;
 }
 
-void baseMenu_t::setMenus( menu_t ** menus ){
-  this->menus = menus;
-}
 
 void baseMenu_t::setNEntries( int n ){
   this -> nEntries = n;
 }
 
-void baseMenu_t::setStrings( char ** strings){
-  this -> strings = strings;
-}
 void baseMenu_t::changeSelected( int s ){
   Serial.print( "\tGoing from "  );
   Serial.print( this->selected );
@@ -32,10 +26,6 @@ void baseMenu_t::changeSelected( int s ){
   Serial.print( "\tWrapped to " );
   this->selected = (this->selected)%(this->nEntries);
   Serial.println( this->selected);
-}
-
-char * baseMenu_t::getString(int index){
-	return this->strings[index];
 }
 
 void baseMenu_t::draw( ){

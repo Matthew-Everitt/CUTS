@@ -15,9 +15,16 @@ void fileMenu_t::load ( void ){
   this->dir.rewind();
   this->nEntries = 0;
   this->lastOpened = 0;
-  File file;
-
+  FatFile file;
+  char buffer[128];
   while (file.openNext(&(this->dir), O_READ)) {
+	  Serial.print("Entry ");
+	  Serial.print(this->nEntries);
+	  Serial.print(" ( \"");
+	  file.getName(buffer, 128);
+	  Serial.print(buffer);
+	  Serial.print("\" ) at index ");
+	  Serial.println(file.dirIndex());
 	  this->nEntries++;
 	  file.close();
   }
@@ -37,7 +44,7 @@ char * fileMenu_t::getString(int index) {
 	//		*	Have a fixed size cache of strings, ignore anything outside that - who needs more than N files per dir?
 	//		*	Build a lookup table of requested index vs. FAT index. Should be 16 bits per entry, need to allow a decent # - big table. Not unreasonable if we limit to lets say 100 files per dir.
 
-	//		*	Lookup table as above, but pageified / cached like the other ideas, but using less RAM than strings
+	//		*	Lookup table as above, but pageified / cached like the other ideas, but using less RAM than strings. Seems reasonably easy to have an array of N, from m to m+N, and update (shift) by N/2 when we reach the edge. That way we always have a reasonable margin to move back and forth without having to recalculate. To make life easier we may be able to use get/setPos on the dir file to record where the transitions are, which can be calculated when we find the # of files at load.
 
 	if (index < this->lastOpened) {
 		this->lastOpened = 0;
@@ -62,7 +69,7 @@ char * fileMenu_t::getString(int index) {
 
 void fileMenu_t::select() {
 	Serial.println("Changing menu (file)");
-	menu = this->menus[this->selected];
-	menu->load();
+	//menu = this->menus[this->selected];
+	//menu->load();
 }
 

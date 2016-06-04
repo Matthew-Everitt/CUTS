@@ -109,9 +109,9 @@ void updateMainDisplay() {
 void updateDisplay() {
 	static unsigned long  last = 0;
 	unsigned long  now = micros();
-	Serial.print("Took ");
-	Serial.print(now - last);
-	Serial.println(" us");
+	//Serial.print("Took ");
+	//Serial.print(now - last);
+	//Serial.println(" us");
 	last = now;
 	updateEncoder();
 	updateMainDisplay();
