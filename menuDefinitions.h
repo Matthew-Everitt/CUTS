@@ -35,7 +35,7 @@ void setupMenus() {
 
 	//settingsMenu.setStrings(settingsStrings);
 	//settingsMenu.setMenus(settingsMenus);
-	settingsMenu.setNEntries(2);
+	//settingsMenu.setNEntries(2);
 
 	//fileMenu_t shouldn't need this
 	//testMenu.setStrings(testStrings);
