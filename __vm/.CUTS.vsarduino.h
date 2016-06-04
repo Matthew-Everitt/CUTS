@@ -72,5 +72,7 @@ typedef void *__builtin_va_list;
 #include <nokiaDisplay.h>
 #include <normalMenu.cpp>
 #include <normalMenu.h>
+#include <settingsMenu.cpp>
+#include <settingsMenu.h>
 #include <systemState.h>
 #endif
