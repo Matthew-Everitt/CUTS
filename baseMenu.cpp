@@ -35,9 +35,9 @@ void baseMenu_t::draw() {
 	int start = (int)(this->selected - displayProperties.before); //Have some before the selected.
 	int correction = min(0, (int)(this->nEntries - (this->selected + displayProperties.after))); //Step back to get the 
 
-  //   //Serial.print( count );
-  //   //Serial.println( " lines to print.");
-  //   //Serial.print("Going from ");//Serial.print(start);//Serial.print(" + "); //Serial.println(-correction);
+	//   //Serial.print( count );
+	//   //Serial.println( " lines to print.");
+	//   //Serial.print("Going from ");//Serial.print(start);//Serial.print(" + "); //Serial.println(-correction);
 	start += correction;
 	start = max(0, start);
 	int linger = 15; // Time to wait at the start / end of a string, in pixels. About 15 is ok?
@@ -62,12 +62,10 @@ void baseMenu_t::draw() {
 			if (displacement < 0) {
 				pos = 1;
 				////Serial.println(",Start");
-			}
-			else if (displacement > overflow) {
+			} else if (displacement > overflow) {
 				pos = 1 - overflow;
 				////Serial.println(",End");
-			}
-			else {
+			} else {
 				pos = 1 - displacement;
 				//Serial.println(",Scroll");
 			}

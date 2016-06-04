@@ -57,8 +57,7 @@ void fileMenu_t::unload(void) {
 		this->dir.close();
 		menu = this->parent;
 		menu->load();
-	}
-	else { //Otherwise move to the parent dir
+	} else { //Otherwise move to the parent dir
 		Serial.println("Moving to parent directory");
 		this->getParentDir();
 		Serial.print("Parent dir is ");
@@ -103,7 +102,7 @@ void fileMenu_t::unload(void) {
 		Serial.print("Which puts the selected as ");
 		Serial.println(this->selected);
 
-		
+
 	}
 }
 
@@ -162,12 +161,11 @@ void fileMenu_t::select() {
 		this->dir = nextDir;
 		this->selected = 0;
 		this->load();
-	}
-	else {
+	} else {
 		Serial.println("Open file");
 	}
 	file.close();
-	
+
 
 }
 

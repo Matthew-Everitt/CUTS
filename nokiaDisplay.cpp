@@ -18,7 +18,7 @@
 extern SdFat SD;
 
 IntervalTimer displayTimer;
-     
+
 displayProperties_t displayProperties;
 //I think DC & RST may be swapped
 U8GLIB_PCD8544 disp(dispCLK, dispMOSI, dispSCE, dispRST, dispDC);
@@ -39,8 +39,7 @@ debounceISR(playBut) {
 	Serial.println("Play/Pause");
 	if (systemState.driveState == play) {
 		systemState.driveState = pause;
-	}
-	else {
+	} else {
 		systemState.driveState = play;
 	}
 }
@@ -55,7 +54,7 @@ debounceISR(backBut) {
 void setupDisplay() {
 	setupMenus();
 	pinMode(13, OUTPUT);
-	
+
 	BUTTON(encButt);
 	BUTTON(playBut);
 	BUTTON(backBut);
@@ -70,8 +69,8 @@ void setupDisplay() {
 	//   disp.setFont(u8g_font_6x10);
 	//   disp.setFont(u8g_font_6x13);
 	displayProperties.fontHeight = disp.getFontAscent() - disp.getFontDescent();
-	displayProperties.fontWidth= disp.getStrWidth(" ");
-	
+	displayProperties.fontWidth = disp.getStrWidth(" ");
+
 	displayProperties.infoBarHeight = displayProperties.fontHeight;
 
 
@@ -124,14 +123,14 @@ void updateMainDisplay() {
 
 void updateDisplay() {
 
-	//unsigned long  start = micros();
+	unsigned long  start = micros();
 	updateEncoder();
 	updateMainDisplay();
-	//unsigned long  now = micros();
+	unsigned long  now = micros();
 
-	//Serial.print("Took ");
-	//Serial.print(now - start);
-	//Serial.println(" us");
+	Serial.print("Took ");
+	Serial.print(now - start);
+	Serial.println(" us");
 	//delay(100);
 	systemState.percentage++;
 	systemState.percentage = systemState.percentage % 101;
@@ -149,11 +148,9 @@ void drawInfoBar(void) {
 	const char *space;
 	if (systemState.percentage == 100) {
 		space = "";
-	}
-	else if (systemState.percentage < 10) {
+	} else if (systemState.percentage < 10) {
 		space = "  ";
-	}
-	else {
+	} else {
 		space = " ";
 	}
 	snprintf(buf, 10, "%s%i%%", space, systemState.percentage);
@@ -165,12 +162,10 @@ void drawInfoBar(void) {
 	//Drive state icon
 	if (systemState.driveState == play) {
 		disp.drawTriangle(0, disp.getHeight(), 0, disp.getHeight() - displayProperties.infoBarHeight + 1, (displayProperties.infoBarHeight), disp.getHeight() - displayProperties.infoBarHeight / 2);
-	}
-	else if (systemState.driveState == pause) {
+	} else if (systemState.driveState == pause) {
 		disp.drawBox(0, disp.getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight - 1) / 2, displayProperties.infoBarHeight);
 		disp.drawBox((displayProperties.infoBarHeight - 1) / 2 + 1, disp.getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight - 1) / 2, displayProperties.infoBarHeight);
-	}
-	else if (systemState.driveState == stop) {
+	} else if (systemState.driveState == stop) {
 		disp.drawBox(0, disp.getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight), displayProperties.infoBarHeight);
 	}
 

@@ -46,7 +46,7 @@ void settingsMenu_t::select() {
 		settings.tokenise = !settings.tokenise;
 		break;
 	default:
-		Serial.print("Wha!? "); Serial.print(__LINE__); Serial.print(" of ");Serial.print( __FILE__);
+		Serial.print("Wha!? "); Serial.print(__LINE__); Serial.print(" of "); Serial.print(__FILE__);
 	}
 }
 
@@ -54,12 +54,10 @@ void settingsMenu_t::load() {
 	this->nEntries = 3;
 }
 
-const char * settingsMenu_t::boolToString(bool b)
-{
+const char * settingsMenu_t::boolToString(bool b) {
 	if (b) {
 		return "true";
-	}
-	else {
+	} else {
 		return "false";
 	}
 }
