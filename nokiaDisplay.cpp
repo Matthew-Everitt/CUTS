@@ -17,17 +17,17 @@
 
 extern SdFat SD;
 
-IntervalTimer displayTimer;
+//IntervalTimer displayTimer; //Unused - display drawing takes far too long to run in an interrupt
 
-displayProperties_t displayProperties;
+extern displayProperties_t displayProperties;
 //I think DC & RST may be swapped
-U8GLIB_PCD8544 disp(dispCLK, dispMOSI, dispSCE, dispRST, dispDC);
-Encoder rotaryEncoder(encPin1, encPin2);
+extern U8GLIB_PCD8544 disp;
+extern Encoder rotaryEncoder;
 
 extern systemState_t systemState;
 
 //current menu
-menu_t *  menu;
+extern menu_t *  menu;
 
 #include "menuDefinitions.h"
 debounceISR(encButt) {

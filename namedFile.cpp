@@ -1,9 +1,10 @@
 #include "namedFile.h"
 #include "common.h"
-extern block_t currentBlock;
-extern bool SdPresent;
+
+extern bool SdPresent; //in systemState
 extern settings_t settings;
 
+block_t currentBlock;
 
 void detokenise(block_t * block, File * file) {
 	byte * p = block->data;
@@ -46,6 +47,8 @@ void detokenise(block_t * block, File * file) {
 		p++;
 	}
 }
+
+void tokenise(File * file) {}
 
 
 

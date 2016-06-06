@@ -13,19 +13,89 @@
 #include <SdFat.h>
 #include "FileTools.h"
 #include "systemState.h"
+
+//common.h
+//debugLevels.h
+//FileTools.h
+//namedFile.h
+//pinout.h
+//systemState.h
+//fileMenu.cpp
+//FileTools.cpp
+//namedFile.cpp
+//nokiaDisplay.cpp
+//	
 SdFat SD;
 
+//systemState.h
+//FileTools.cpp
+//namedFile.cpp
+//nokiaDisplay.cpp
+//	
 systemState_t systemState;
+
+//common.h
+//menuDefinitions.h
+//settingsMenu.h
+//namedFile.cpp
+//settingsMenu.cpp
+//	
 settings_t settings;
 
-void toggleLED(void){
-  digitalWrite(LED,!digitalRead(LED));
+//
+//common.h
+//debugLevels.h
+//fileSendMenu.h
+//menu.h
+//nokiaDisplay.h
+//pinout.h
+//settingsMenu.h
+//baseMenu.cpp
+//nokiaDisplay.cpp
+//settingsMenu.cpp
+//	
+U8GLIB_PCD8544 disp(dispCLK, dispMOSI, dispSCE, dispRST, dispDC);
+
+
+//common.h
+//baseMenu.cpp
+//nokiaDisplay.cpp
+//settingsMenu.cpp
+//	
+displayProperties_t displayProperties;
+
+
+//nokiaDisplay.cpp
+//	
+Encoder rotaryEncoder(encPin1, encPin2);
+
+
+//baseMenu.h
+//common.h
+//debugLevels.h
+//fileMenu.h
+//fileSendMenu.h
+//menu.h
+//menuDefinitions.h
+//normalMenu.h
+//settingsMenu.h
+//baseMenu.cpp
+//fileMenu.cpp
+//fileSendMenu.cpp
+//nokiaDisplay.cpp
+//normalMenu.cpp
+//settingsMenu.cpp
+//CUTS.ino
+menu_t * menu;
+
+void toggleLED(void) {
+	digitalWrite(LED, !digitalRead(LED));
 }
 
 void setup() {
-  pinMode(LED, OUTPUT);
-  pinMode(inputPin,INPUT);
-  attachInterrupt(inputPin,toggleLED,CHANGE);
+	pinMode(LED, OUTPUT);
+	pinMode(inputPin, INPUT);
+	attachInterrupt(inputPin, toggleLED, CHANGE);
 	setupDisplay();
 	setupSD();
 }
