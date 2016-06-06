@@ -53,7 +53,6 @@ debounceISR(backBut) {
 
 void setupDisplay() {
 	setupMenus();
-	pinMode(13, OUTPUT);
 
 	BUTTON(encButt);
 	BUTTON(playBut);

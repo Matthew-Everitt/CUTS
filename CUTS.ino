@@ -18,7 +18,14 @@ SdFat SD;
 systemState_t systemState;
 settings_t settings;
 
+void toggleLED(void){
+  digitalWrite(LED,!digitalRead(LED));
+}
+
 void setup() {
+  pinMode(LED, OUTPUT);
+  pinMode(inputPin,INPUT);
+  attachInterrupt(inputPin,toggleLED,CHANGE);
 	setupDisplay();
 	setupSD();
 }

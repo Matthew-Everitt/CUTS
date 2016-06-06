@@ -1,3 +1,4 @@
+#pragma once
 enum pins {
 	//LCD display pins
 	//TODO - Check these, I think DC & RST are swapped
@@ -26,5 +27,7 @@ enum pins {
 	sdMOSI = 7,
 	sdMISO = 12,
 	sdSCK = 14,
+
+  LED = 13,
 };
-#pragma once
+
