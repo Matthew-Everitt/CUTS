@@ -9,6 +9,9 @@
 
 #include "menu.h"
 
+
+
+
 //These are more dangerous than the Arduino default using typeof, but visual studio objects to them at some level.
 //Main thing to remember is that the arguments to these get evaluated repeatedly, so something like x++ is probably not a smart argument.
 #undef max
@@ -75,6 +78,4 @@ typedef struct {
 } displayProperties_t;
 
 
-
-extern U8GLIB_PCD8544 disp;
 extern displayProperties_t displayProperties;

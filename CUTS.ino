@@ -42,21 +42,6 @@ systemState_t systemState;
 //	
 settings_t settings;
 
-//
-//common.h
-//debugLevels.h
-//fileSendMenu.h
-//menu.h
-//nokiaDisplay.h
-//pinout.h
-//settingsMenu.h
-//baseMenu.cpp
-//nokiaDisplay.cpp
-//settingsMenu.cpp
-//	
-U8GLIB_PCD8544 disp(dispCLK, dispMOSI, dispSCE, dispRST, dispDC);
-
-
 //common.h
 //baseMenu.cpp
 //nokiaDisplay.cpp
@@ -93,8 +78,7 @@ void toggleLED(void) {
 	digitalWrite(LED, !digitalRead(LED));
 }
 
-display_t display;
-
+display_t display(dispCLK, dispMOSI, dispSCE, dispRST, dispDC);
 void setup() {
 	pinMode(LED, OUTPUT);
 	pinMode(inputPin, INPUT);
@@ -102,7 +86,6 @@ void setup() {
 
 	setupSD();
 }
-
 void loop() {
 	display.update();
 }

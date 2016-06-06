@@ -21,8 +21,7 @@ extern bool done;
 //IntervalTimer displayTimer; //Unused - display drawing takes far too long to run in an interrupt
 
 extern displayProperties_t displayProperties;
-//I think DC & RST may be swapped
-extern U8GLIB_PCD8544 disp;
+
 extern Encoder rotaryEncoder;
 
 extern systemState_t systemState;
@@ -53,7 +52,7 @@ debounceISR(backBut) {
 }
 
 
-display_t::display_t() {
+display_t::display_t(uint8_t sck, uint8_t mosi, uint8_t cs, uint8_t a0, uint8_t reset) : U8GLIB_PCD8544(sck, mosi, cs, a0, reset) {
 	setupMenus();
 
 	BUTTON(encButt);
@@ -62,21 +61,21 @@ display_t::display_t() {
 
 	menu = &topMenu;
 
-	//disp.setFont(u8g_font_profont10); 
-	//disp.setFont(u8g_font_04b_03);
-	//disp.setFont(u8g_font_4x6);
-	//disp.setFont(u8g_font_5x8);
-	disp.setFont(u8g_font_5x7);
-	//   disp.setFont(u8g_font_6x10);
-	//   disp.setFont(u8g_font_6x13);
-	displayProperties.fontHeight = disp.getFontAscent() - disp.getFontDescent();
-	displayProperties.fontWidth = disp.getStrWidth(" ");
+	//this->setFont(u8g_font_profont10); 
+	//this->setFont(u8g_font_04b_03);
+	//this->setFont(u8g_font_4x6);
+	//this->setFont(u8g_font_5x8);
+	this->setFont(u8g_font_5x7);
+	//   this->setFont(u8g_font_6x10);
+	//   this->setFont(u8g_font_6x13);
+	displayProperties.fontHeight = this->getFontAscent() - this->getFontDescent();
+	displayProperties.fontWidth = this->getStrWidth(" ");
 
 	displayProperties.infoBarHeight = displayProperties.fontHeight;
 
 
-	displayProperties.nRows = (disp.getHeight() - displayProperties.infoBarHeight) / displayProperties.fontHeight;
-	displayProperties.nCols = disp.getWidth() / displayProperties.fontWidth; //Requires a monospace font, so not always reliable
+	displayProperties.nRows = (this->getHeight() - displayProperties.infoBarHeight) / displayProperties.fontHeight;
+	displayProperties.nCols = this->getWidth() / displayProperties.fontWidth; //Requires a monospace font, so not always reliable
 
 
 	//Serial.print("We have "); Serial.print(displayProperties.nRows); Serial.println(" slots for menu items.");
@@ -88,12 +87,7 @@ display_t::display_t() {
 	//Serial.print("Leaving "); Serial.print(displayProperties.after); Serial.println(" to go after");
 	//Serial.print("Thats a total of "); Serial.println(1 + displayProperties.before + displayProperties.after);
 
-
-	//Serial.print("Before :  "); Serial.println(displayProperties.before);
-	//Serial.print("After  :  "); Serial.println(displayProperties.after);
-	//Serial.print("nRows  :  "); Serial.println(displayProperties.nRows);
-	//Serial.print("nCols  :  "); Serial.println(displayProperties.nCols);
-	disp.setColorIndex(1); // Instructs the display to draw with a pixel on. 
+	this->setColorIndex(1); // Instructs the display to draw with a pixel on. 
 
 
 	//displayTimer.begin(updateDisplay, 100000); //Periodically update the display, no need for looping. This might cause issues as this is a pretty massive ISR. Depends how fast the processor is compared to the work load
@@ -113,13 +107,13 @@ void display_t::updateEncoder() {
 }
 
 void display_t::updateMainDisplay() {
-	disp.firstPage();
+	this->firstPage();
 	do {
 		drawInfoBar();
 		//     Serial.print("\tMenu is 0x");Serial.println((int)menu,HEX);
 		menu->draw();
 		//     Serial.println(")");
-	} while (disp.nextPage());
+	} while (this->nextPage());
 }
 
 void display_t::update() {
@@ -143,9 +137,9 @@ void display_t::update() {
 
 void display_t::drawInfoBar(void) {
 
-	uint8_t top = disp.getHeight() - displayProperties.infoBarHeight;
+	uint8_t top = this->getHeight() - displayProperties.infoBarHeight;
 
-	disp.setFontPosBaseline();
+	this->setFontPosBaseline();
 
 	//Progress 
 	char buf[10];
@@ -158,21 +152,21 @@ void display_t::drawInfoBar(void) {
 		space = " ";
 	}
 	snprintf(buf, 10, "%s%i%%", space, systemState.percentage);
-	disp.drawStr(displayProperties.infoBarHeight + 1, disp.getHeight(), buf);
+	this->drawStr(displayProperties.infoBarHeight + 1, this->getHeight(), buf);
 
 	//Line seperating the infoBar
-	disp.drawLine(0, top, disp.getWidth(), top);
+	this->drawLine(0, top, this->getWidth(), top);
 
 	//Drive state icon
 	if (systemState.driveState == play) {
-		disp.drawTriangle(0, disp.getHeight(), 0, disp.getHeight() - displayProperties.infoBarHeight + 1, (displayProperties.infoBarHeight), disp.getHeight() - displayProperties.infoBarHeight / 2);
+		this->drawTriangle(0, this->getHeight(), 0, this->getHeight() - displayProperties.infoBarHeight + 1, (displayProperties.infoBarHeight), this->getHeight() - displayProperties.infoBarHeight / 2);
 	} else if (systemState.driveState == pause) {
-		disp.drawBox(0, disp.getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight - 1) / 2, displayProperties.infoBarHeight);
-		disp.drawBox((displayProperties.infoBarHeight - 1) / 2 + 1, disp.getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight - 1) / 2, displayProperties.infoBarHeight);
+		this->drawBox(0, this->getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight - 1) / 2, displayProperties.infoBarHeight);
+		this->drawBox((displayProperties.infoBarHeight - 1) / 2 + 1, this->getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight - 1) / 2, displayProperties.infoBarHeight);
 	} else if (systemState.driveState == stop) {
-		disp.drawBox(0, disp.getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight), displayProperties.infoBarHeight);
+		this->drawBox(0, this->getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight), displayProperties.infoBarHeight);
 	}
 
 	bytesToString(systemState.freeSpace, buf, 10);
-	disp.drawStr(disp.getWidth() - disp.getStrWidth(buf), disp.getHeight(), buf);
+	this->drawStr(this->getWidth() - this->getStrWidth(buf), this->getHeight(), buf);
 }

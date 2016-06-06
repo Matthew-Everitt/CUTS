@@ -1,7 +1,6 @@
 #include "settingsMenu.h"
 #include "common.h"
 
-extern U8GLIB_PCD8544 disp;
 extern settings_t settings;
 extern displayProperties_t displayProperties;
 

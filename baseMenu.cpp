@@ -4,6 +4,7 @@
 #include "nokiaDisplay.h"
 extern menu_t * menu;
 
+
 baseMenu_t::baseMenu_t(menu_t *  parent) {
 	this->parent = parent;
 }
@@ -47,9 +48,9 @@ void baseMenu_t::draw() {
 
 
 		////Serial.println(this->getString(i + start));
-		int  d = disp.getStrWidth(this->getString(i + start)) + 1;
+		int  d = display.getStrWidth(this->getString(i + start)) + 1;
 		////Serial.print("Is "); //Serial.print(d); //Serial.println(" pixels long.");
-		int overflow = d - disp.getWidth();
+		int overflow = d - display.getWidth();
 		int pos = 1;
 		////Serial.print("Thats "); //Serial.print(overflow); //Serial.println(" pixels longer than the screen is wide.");
 		if (overflow > 0) {
@@ -72,13 +73,13 @@ void baseMenu_t::draw() {
 			//       pos = 1;
 		}
 		if (start + i == this->selected) {
-			disp.drawBox(0, (i)*displayProperties.fontHeight + 1, d, displayProperties.fontHeight);
-			disp.setDefaultBackgroundColor();
+			display.drawBox(0, (i)*displayProperties.fontHeight + 1, d, displayProperties.fontHeight);
+			display.setDefaultBackgroundColor();
 			//       //Serial.print("*");
 		}
 		//     //Serial.println(this->strings[i + start]);
-		disp.drawStr(pos, (i + 1)*displayProperties.fontHeight, this->getString(i + start));
-		disp.setDefaultForegroundColor();
+		display.drawStr(pos, (i + 1)*displayProperties.fontHeight, this->getString(i + start));
+		display.setDefaultForegroundColor();
 		////Serial.println();
 	}
 }

@@ -1,6 +1,9 @@
 #pragma once
 
+#ifndef NULL
 #define NULL 0
+#endif
+
 #define NO_PARENT ( (menu_t*)NULL )
 
 class menu_t {
