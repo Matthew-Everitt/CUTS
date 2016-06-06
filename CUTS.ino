@@ -96,10 +96,10 @@ void setup() {
 	pinMode(LED, OUTPUT);
 	pinMode(inputPin, INPUT);
 	attachInterrupt(inputPin, toggleLED, CHANGE);
-	setupDisplay();
+	display::setupDisplay();
 	setupSD();
 }
 
 void loop() {
-	updateDisplay();
+	display::updateDisplay();
 }

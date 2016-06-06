@@ -3,7 +3,6 @@
 #include "normalMenu.h"
 #include "settingsMenu.h"
 #include "menu.h"
-
 //Actual menus
 static normalMenu_t topMenu(NULL);
 static fileMenu_t filesMenu(&topMenu);
