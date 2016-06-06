@@ -42,10 +42,6 @@ systemState_t systemState;
 //	
 settings_t settings;
 
-//common.h
-//baseMenu.cpp
-//	
-
 
 
 
