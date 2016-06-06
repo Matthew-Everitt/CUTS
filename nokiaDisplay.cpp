@@ -51,8 +51,9 @@ debounceISR(backBut) {
 	Serial.println("Back");
 	menu->unload();
 }
+
+
 display_t::display_t() {
-	done = true;
 	setupMenus();
 
 	BUTTON(encButt);

@@ -99,6 +99,7 @@ void setup() {
 	pinMode(LED, OUTPUT);
 	pinMode(inputPin, INPUT);
 	attachInterrupt(inputPin, toggleLED, CHANGE);
+
 	setupSD();
 }
 
