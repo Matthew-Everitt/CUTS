@@ -3,7 +3,7 @@
 //	In order for the SD card pins (SPI peripheral)  to be configurable  SD_SPI_CONFIGURATION must be set to 1 in SdFatConfig.h of sdFat
 //
 
-#include "common.h" //Lots of type definitinons etc, and includes all the libraries in an effort to get Arduino to actually include them.
+#include "common.h" //Lots of type definitions etc, and includes all the libraries in an effort to get Arduino to actually include them.
 #include "nokiaDisplay.h"
 #include <U8glib.h>
 #include <Encoder.h>
@@ -13,7 +13,7 @@
 #include <SdFat.h>
 #include "FileTools.h"
 #include "systemState.h"
-
+#include "menu.h"
 //common.h
 //debugLevels.h
 //FileTools.h
@@ -88,18 +88,24 @@ Encoder rotaryEncoder(encPin1, encPin2);
 //CUTS.ino
 menu_t * menu;
 
+
+bool done = false;
+
 void toggleLED(void) {
 	digitalWrite(LED, !digitalRead(LED));
 }
+
+display_t display;
 
 void setup() {
 	pinMode(LED, OUTPUT);
 	pinMode(inputPin, INPUT);
 	attachInterrupt(inputPin, toggleLED, CHANGE);
-	display::setupDisplay();
 	setupSD();
+	Serial.println("done.");
 }
 
 void loop() {
-	display::updateDisplay();
+	Serial.println(done?"Done":"Undone");
+	display.update();
 }
