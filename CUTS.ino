@@ -52,7 +52,7 @@ displayProperties_t displayProperties;
 
 //nokiaDisplay.cpp
 //	
-Encoder rotaryEncoder(encPin1, encPin2);
+
 
 
 //baseMenu.h
@@ -70,15 +70,17 @@ Encoder rotaryEncoder(encPin1, encPin2);
 //nokiaDisplay.cpp
 //normalMenu.cpp
 //settingsMenu.cpp
-//CUTS.ino
 menu_t * menu;
+
+
+//nokiaDisplay.h which is used in baseMenu.h
+display_t display(dispCLK, dispMOSI, dispSCE, dispRST, dispDC);
 
 
 void toggleLED(void) {
 	digitalWrite(LED, !digitalRead(LED));
 }
 
-display_t display(dispCLK, dispMOSI, dispSCE, dispRST, dispDC);
 void setup() {
 	pinMode(LED, OUTPUT);
 	pinMode(inputPin, INPUT);

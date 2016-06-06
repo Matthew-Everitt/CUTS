@@ -22,8 +22,6 @@ extern bool done;
 
 extern displayProperties_t displayProperties;
 
-extern Encoder rotaryEncoder;
-
 extern systemState_t systemState;
 
 //current menu
@@ -50,6 +48,8 @@ debounceISR(backBut) {
 	Serial.println("Back");
 	menu->unload();
 }
+
+Encoder display_t::rotaryEncoder(encPin1, encPin2);
 
 
 display_t::display_t(uint8_t sck, uint8_t mosi, uint8_t cs, uint8_t a0, uint8_t reset) : U8GLIB_PCD8544(sck, mosi, cs, a0, reset) {

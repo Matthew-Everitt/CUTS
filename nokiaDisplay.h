@@ -15,6 +15,8 @@ public:
 	debounceISR_proto(playBut);
 	debounceISR_proto(backBut);
 
+	static Encoder rotaryEncoder;// (encPin1, encPin2);
+
 
 };
 
