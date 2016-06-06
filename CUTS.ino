@@ -89,8 +89,6 @@ Encoder rotaryEncoder(encPin1, encPin2);
 menu_t * menu;
 
 
-bool done = false;
-
 void toggleLED(void) {
 	digitalWrite(LED, !digitalRead(LED));
 }
@@ -102,10 +100,8 @@ void setup() {
 	pinMode(inputPin, INPUT);
 	attachInterrupt(inputPin, toggleLED, CHANGE);
 	setupSD();
-	Serial.println("done.");
 }
 
 void loop() {
-	Serial.println(done?"Done":"Undone");
 	display.update();
 }
