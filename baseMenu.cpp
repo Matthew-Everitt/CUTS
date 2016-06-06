@@ -32,9 +32,9 @@ void baseMenu_t::changeSelected(int s) {
 void baseMenu_t::draw() {
 	//   //Serial.print("Selected is ");
 	//   //Serial.println(this->selected);
-	int count = min(displayProperties.nRows , this->nEntries);
-	int start = (int)(this->selected - displayProperties.before); //Have some before the selected.
-	int correction = min(0, (int)(this->nEntries - (this->selected + displayProperties.after + 1 ))); //Step back to get the 
+	int count = min(display.properties.nRows , this->nEntries);
+	int start = (int)(this->selected - display.properties.before); //Have some before the selected.
+	int correction = min(0, (int)(this->nEntries - (this->selected + display.properties.after + 1 ))); //Step back to get the 
 
 	//   //Serial.print( count );
 	//   //Serial.println( " lines to print.");
@@ -73,12 +73,12 @@ void baseMenu_t::draw() {
 			//       pos = 1;
 		}
 		if (start + i == this->selected) {
-			display.drawBox(0, (i)*displayProperties.fontHeight + 1, d, displayProperties.fontHeight);
+			display.drawBox(0, (i)*display.properties.fontHeight + 1, d, display.properties.fontHeight);
 			display.setDefaultBackgroundColor();
 			//       //Serial.print("*");
 		}
 		//     //Serial.println(this->strings[i + start]);
-		display.drawStr(pos, (i + 1)*displayProperties.fontHeight, this->getString(i + start));
+		display.drawStr(pos, (i + 1)*display.properties.fontHeight, this->getString(i + start));
 		display.setDefaultForegroundColor();
 		////Serial.println();
 	}

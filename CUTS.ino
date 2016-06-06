@@ -44,14 +44,8 @@ settings_t settings;
 
 //common.h
 //baseMenu.cpp
-//nokiaDisplay.cpp
-//settingsMenu.cpp
 //	
-displayProperties_t displayProperties;
 
-
-//nokiaDisplay.cpp
-//	
 
 
 

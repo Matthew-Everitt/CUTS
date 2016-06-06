@@ -1,8 +1,8 @@
 #include "settingsMenu.h"
+#include "nokiaDisplay.h" //provides display_t display
 #include "common.h"
 
 extern settings_t settings;
-extern displayProperties_t displayProperties;
 
 settingsMenu_t::settingsMenu_t(menu_t *  parent) : baseMenu_t::baseMenu_t(parent) {}
 
@@ -32,7 +32,7 @@ const char * settingsMenu_t::getString(int index) {
 		name = "Error";
 		state = "Error";
 	}
-	uint8_t width = displayProperties.nCols - strlen(name);
+	uint8_t width = display.properties.nCols - strlen(name);
 	snprintf(this->buffer, this->bufferLen, "%s%*s", name, width, state);
 	return this->buffer;
 }

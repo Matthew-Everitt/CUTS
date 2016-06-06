@@ -20,8 +20,6 @@ extern SdFat SD;
 extern bool done;
 //IntervalTimer displayTimer; //Unused - display drawing takes far too long to run in an interrupt
 
-extern displayProperties_t displayProperties;
-
 extern systemState_t systemState;
 
 //current menu
@@ -68,24 +66,24 @@ display_t::display_t(uint8_t sck, uint8_t mosi, uint8_t cs, uint8_t a0, uint8_t 
 	this->setFont(u8g_font_5x7);
 	//   this->setFont(u8g_font_6x10);
 	//   this->setFont(u8g_font_6x13);
-	displayProperties.fontHeight = this->getFontAscent() - this->getFontDescent();
-	displayProperties.fontWidth = this->getStrWidth(" ");
+	this->properties.fontHeight = this->getFontAscent() - this->getFontDescent();
+	this->properties.fontWidth = this->getStrWidth(" ");
 
-	displayProperties.infoBarHeight = displayProperties.fontHeight;
-
-
-	displayProperties.nRows = (this->getHeight() - displayProperties.infoBarHeight) / displayProperties.fontHeight;
-	displayProperties.nCols = this->getWidth() / displayProperties.fontWidth; //Requires a monospace font, so not always reliable
+	this->properties.infoBarHeight = this->properties.fontHeight;
 
 
-	//Serial.print("We have "); Serial.print(displayProperties.nRows); Serial.println(" slots for menu items.");
+	this->properties.nRows = (this->getHeight() - this->properties.infoBarHeight) / this->properties.fontHeight;
+	this->properties.nCols = this->getWidth() / this->properties.fontWidth; //Requires a monospace font, so not always reliable
+
+
+	//Serial.print("We have "); Serial.print(this->properties.nRows); Serial.println(" slots for menu items.");
 	//Serial.println("Obviously we need one for the active item.");
-	displayProperties.before = displayProperties.nRows / 2;
-	//Serial.print("Assign "); Serial.print(displayProperties.before); Serial.println(" rows before the active");
-	displayProperties.after = displayProperties.nRows - displayProperties.before;
-	if (isOdd(displayProperties.nRows % 2)) displayProperties.before--;
-	//Serial.print("Leaving "); Serial.print(displayProperties.after); Serial.println(" to go after");
-	//Serial.print("Thats a total of "); Serial.println(1 + displayProperties.before + displayProperties.after);
+	this->properties.before = this->properties.nRows / 2;
+	//Serial.print("Assign "); Serial.print(this->properties.before); Serial.println(" rows before the active");
+	this->properties.after = this->properties.nRows - this->properties.before;
+	if (isOdd(this->properties.nRows % 2)) this->properties.before--;
+	//Serial.print("Leaving "); Serial.print(this->properties.after); Serial.println(" to go after");
+	//Serial.print("Thats a total of "); Serial.println(1 + this->properties.before + this->properties.after);
 
 	this->setColorIndex(1); // Instructs the display to draw with a pixel on. 
 
@@ -137,7 +135,7 @@ void display_t::update() {
 
 void display_t::drawInfoBar(void) {
 
-	uint8_t top = this->getHeight() - displayProperties.infoBarHeight;
+	uint8_t top = this->getHeight() - this->properties.infoBarHeight;
 
 	this->setFontPosBaseline();
 
@@ -152,19 +150,19 @@ void display_t::drawInfoBar(void) {
 		space = " ";
 	}
 	snprintf(buf, 10, "%s%i%%", space, systemState.percentage);
-	this->drawStr(displayProperties.infoBarHeight + 1, this->getHeight(), buf);
+	this->drawStr(this->properties.infoBarHeight + 1, this->getHeight(), buf);
 
 	//Line seperating the infoBar
 	this->drawLine(0, top, this->getWidth(), top);
 
 	//Drive state icon
 	if (systemState.driveState == play) {
-		this->drawTriangle(0, this->getHeight(), 0, this->getHeight() - displayProperties.infoBarHeight + 1, (displayProperties.infoBarHeight), this->getHeight() - displayProperties.infoBarHeight / 2);
+		this->drawTriangle(0, this->getHeight(), 0, this->getHeight() - this->properties.infoBarHeight + 1, (this->properties.infoBarHeight), this->getHeight() - this->properties.infoBarHeight / 2);
 	} else if (systemState.driveState == pause) {
-		this->drawBox(0, this->getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight - 1) / 2, displayProperties.infoBarHeight);
-		this->drawBox((displayProperties.infoBarHeight - 1) / 2 + 1, this->getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight - 1) / 2, displayProperties.infoBarHeight);
+		this->drawBox(0, this->getHeight() - this->properties.infoBarHeight + 2, (this->properties.infoBarHeight - 1) / 2, this->properties.infoBarHeight);
+		this->drawBox((this->properties.infoBarHeight - 1) / 2 + 1, this->getHeight() - this->properties.infoBarHeight + 2, (this->properties.infoBarHeight - 1) / 2, this->properties.infoBarHeight);
 	} else if (systemState.driveState == stop) {
-		this->drawBox(0, this->getHeight() - displayProperties.infoBarHeight + 2, (displayProperties.infoBarHeight), displayProperties.infoBarHeight);
+		this->drawBox(0, this->getHeight() - this->properties.infoBarHeight + 2, (this->properties.infoBarHeight), this->properties.infoBarHeight);
 	}
 
 	bytesToString(systemState.freeSpace, buf, 10);
