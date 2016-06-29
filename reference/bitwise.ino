@@ -23,7 +23,7 @@ bool newByte = false;
 byte recievedByte = 0;
 
 
-
+namespace 
 
 inline void underLengthInterval ( unsigned long interval ){
 #ifdef reportBadPeriods
@@ -176,26 +176,7 @@ void setup(){
     Serial.println("SD card initialization failed! SD will not be avaliable");
     SdPresent = false;
   }
-  
-  float fs = fileTools::freeSpace( );
-  char buffer[128];
-  fileTools::bytesToString(fs,buffer,128);
-  Serial.print(buffer);
-  Serial.println(" free");
 
-  SdFile file;
-   // open next file in root.  The volume working directory, vwd, is root
-  while (file.openNext(SD.vwd(), O_READ)) {
-    file.getName(buffer,128);
-    Serial.print(buffer);
-    if (file.isDir()) {
-      // Indicate a directory.
-      Serial.write('/');
-    }
-    Serial.println();
-    file.close();
-  }
-  
   
   for (byte i = 0; i < 5; i++){
     currentBlock.zeroPad[i]='\0'; /*Zeropad is to allow a longre filename (due to conflicts), and to make sure that any buffer overflows are acceptably easy to debug*/

@@ -26,12 +26,13 @@
 #include "debugLevels.h"
 
 
-#define carrierTimer Timer1
+//#define carrierTimer Timer1
 
 
 extern SdFat SD;
 typedef uint8_t byte;
 typedef uint8_t bit;
+typedef uint8_t pin;
 
 /*Prototype for the byte handing functions. Functions take the byte as input, and return 'finished', so true means move on to next function, false means pass next byte to this function*/
 typedef bool(*byteHandler)(byte b);

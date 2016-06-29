@@ -28,6 +28,5 @@ enum pins {
 	sdMISO = 12,
 	sdSCK = 14,
 
-  LED = 13,
 };
 

@@ -1,6 +1,8 @@
 #include "fileSendMenu.h"
-
+#include "CommunicationSystem.h"
 extern menu_t * menu;
+//extern ComputerInterface * computerInterface;
+extern CommunicationSystem communicationSystem; //We sadly need to have quite a bit global
 
 fileSendMenu_t::fileSendMenu_t(menu_t *  parent) : baseMenu_t::baseMenu_t(parent) {}
 
@@ -20,6 +22,9 @@ const char * fileSendMenu_t::getString(int index) {
 }
 
 void fileSendMenu_t::select() {
+	communicationSystem.computerInterface->sendByte(0x42);
+	communicationSystem.computerInterface->endTransmission();
+	//delay(500);
 	menu = this->parent;
 	menu->load();
 }
