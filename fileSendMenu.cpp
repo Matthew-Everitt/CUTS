@@ -1,5 +1,6 @@
 #include "fileSendMenu.h"
 #include "CommunicationSystem.h"
+#include "fileMenu.h"
 extern menu_t * menu;
 //extern ComputerInterface * computerInterface;
 extern CommunicationSystem communicationSystem; //We sadly need to have quite a bit global
@@ -22,6 +23,14 @@ const char * fileSendMenu_t::getString(int index) {
 }
 
 void fileSendMenu_t::select() {
+	Serial.print("Sending file ");
+
+	FatFile file;
+
+	file.open(&this->parent->dir, this->parent->getString(this->parent->selected), O_READ);
+	file.printName();
+	Serial.println();
+
 	communicationSystem.computerInterface->sendByte(0x42);
 	communicationSystem.computerInterface->endTransmission();
 	//delay(500);

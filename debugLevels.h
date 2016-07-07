@@ -19,6 +19,12 @@
 #define reportInputStateChange
 #endif
 
+#ifdef verboseOutput
+#define verboseOutputChanges
+#define verboseBitSelection
+#define verboseTimer
+#define verboseTxBuffer
+#endif
 
 
 #ifdef verboseTimings //Timing benchmarks

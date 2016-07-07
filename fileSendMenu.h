@@ -1,6 +1,9 @@
 #pragma once
 #include "baseMenu.h"
+//#include "fileMenu.h"
 #include "menu.h"
+class fileMenu_t;
+
 class fileSendMenu_t : public virtual baseMenu_t {
 	friend class fileMenu_t; //this class will probably be created and 'owned' by a fileMenu_t, which will need to be able to set itself as a parent
 public:
@@ -19,7 +22,7 @@ private:
 	};
 
 
-
 	static const int bufferLen = 64; //Display is only 64 pixels wide, so this is pessimistic, but we have RAM, and this isn't the kind of problem that matters unless we need to move to new hardware, in which case we need to think long and hard about these kind of things
 	char buffer[bufferLen];
+	fileMenu_t * parent;
 };

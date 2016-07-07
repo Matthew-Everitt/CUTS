@@ -4,11 +4,10 @@
 #include "menu.h"
 extern menu_t * menu;
 extern SdFat SD;
-
-int compareUint16s(const void * a, const void * b) {
-	return (*(uint16_t*)a - *(uint16_t*)b);
-}
-
+template<typename T1, typename T2>
+	int compare(const void * a, const void * b) {
+		return (*(T1*)a - *(T2*)b);
+	}
 
 fileMenu_t::fileMenu_t(menu_t *  parent) : baseMenu_t::baseMenu_t(parent) {}
 
@@ -99,7 +98,7 @@ void fileMenu_t::unload(void) {
 		//for (uint16_t i = 0; i < this->nEntries; i++) {
 		//	Serial.print(i); Serial.print(",0x"); Serial.print((int)(this->fileIndicies + i), HEX); Serial.print(","); Serial.println(this->fileIndicies[i]);
 		//}
-		uint16_t *pos = (uint16_t*)bsearch(&index, this->fileIndicies, this->nEntries, sizeof(uint16_t), compareUint16s);
+		uint16_t *pos = (uint16_t*)bsearch(&index, this->fileIndicies, this->nEntries, sizeof(uint16_t), compare<uint16_t,uint16_t>);
 		//Serial.print("bsearch puts it at 0x");
 		//Serial.println((int)pos, HEX);
 
